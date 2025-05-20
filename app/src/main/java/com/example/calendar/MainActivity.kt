@@ -21,8 +21,7 @@ import com.example.calendar.ui.viewmodel.TaskViewModel
 import com.example.calendar.ui.viewmodel.TaskViewModelFactory
 import com.example.calendar.ui.screens.CalendarScreen // Importe sua tela Calendar
 import com.example.calendar.ui.screens.DailyTasksScreen // Importe sua tela DailyTasks
-import java.time.LocalDate // Importe LocalDate
-
+import com.example.calendar.utils.NotificationUtils
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +30,9 @@ class MainActivity : ComponentActivity() {
 
         val database = AppDatabase.getDatabase(applicationContext)
         val taskDao = database.taskDao()
+
+        val notificationUtils = NotificationUtils(applicationContext)
+        notificationUtils.createNotificationChannel()
 
         setContent {
             CalendarTheme {

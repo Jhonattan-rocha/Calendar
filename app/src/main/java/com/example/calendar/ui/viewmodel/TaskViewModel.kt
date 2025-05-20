@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.calendar.data.Task
 import com.example.calendar.data.TaskDao
+import com.example.calendar.ui.viewmodel.EnumTaskViewMode
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,9 +17,16 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter // Adicione para formatar a data
+
 
 class TaskViewModel(private val taskDao: TaskDao) : ViewModel() {
+
+    private val _currentViewModel = MutableStateFlow(EnumTaskViewMode.LIST)
+    val currentViewModel: StateFlow<EnumTaskViewMode> = _currentViewModel.asStateFlow()
+
+    fun setViewMode(mode: EnumTaskViewMode){
+        _currentViewModel.value = mode
+    }
 
     // Estado para a data atualmente selecionada no calendário
     private val _selectedDate = MutableStateFlow(LocalDate.now())

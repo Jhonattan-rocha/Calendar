@@ -3,13 +3,18 @@ package com.example.calendar.ui.components
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -33,12 +38,7 @@ fun CalendarView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = { onMonthChanged(currentMonth.minusMonths(1)) }) {
-                Text(
-                    text = "Mês Anterior",
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(6.dp)
-                )
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Mês anterior")
             }
             Text(
                 text = currentMonth.format(DateTimeFormatter.ofPattern("MMM yyyy", Locale.getDefault())),
@@ -46,12 +46,7 @@ fun CalendarView(
                 fontWeight = FontWeight.Bold
             )
             IconButton(onClick = { onMonthChanged(currentMonth.plusMonths(1)) }) {
-                Text(
-                    text = "Próximo Mês",
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(6.dp)
-                )
+                Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Próximo Mẽs")
             }
         }
         Spacer(modifier = Modifier.height(8.dp))

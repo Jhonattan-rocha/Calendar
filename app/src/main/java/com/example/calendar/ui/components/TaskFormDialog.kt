@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.calendar.data.Task // Importe sua entidade Task
 import java.time.LocalDate
@@ -18,7 +19,7 @@ fun TaskFormDialog(
     onConfirm: (Task) -> Unit
 ) {
     var description by remember { mutableStateOf(task?.description ?: "") }
-    var isCompleted by remember { mutableStateOf(task?.isCompleted ?: false) }
+    var isCompleted by remember { mutableStateOf(task?.isCompleted == true) }
     var dueDate by remember { mutableStateOf(task?.dueDate ?: selectedDate) } // Usa a data selecionada como padrão
 
     AlertDialog(
@@ -48,8 +49,20 @@ fun TaskFormDialog(
                 // Simplificado: para selecionar data, idealmente seria um DatePicker
                 // Por enquanto, apenas mostra a data e permite alteração simples
                 Text("Data: ${dueDate.format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE)}")
-                Button(onClick = { /* TODO: Implementar DatePicker para mudar dueDate */ }) {
-                    Text("Mudar Data (TODO)")
+                val context = LocalContext.current
+                Button(onClick = {
+                    val datePicker = android.app.DatePickerDialog(
+                        context,
+                        {_, year, month, dayOfMonth ->
+                            dueDate = LocalDate.of(year, month + 1, dayOfMonth)
+                        },
+                        dueDate.year,
+                        dueDate.monthValue - 1,
+                        dueDate.dayOfMonth
+                    )
+                    datePicker.show()
+                }) {
+                    Text("Mudar data")
                 }
             }
         },
